@@ -1,0 +1,441 @@
+🎯 ЗАВДАННЯ: Створити односторінковий лендінг для ITCodeCraft Roblox Edition
+
+Ти — senior frontend-розробник. Створи production-ready односторінковий лендінг для онлайн ІТ-школи **ITCodeCraft**, яка навчає дітей 8–16 років програмуванню ігор у **Roblox Studio** мовою **Lua**.
+
+Головна ціль сайту — **конверсія в заявку на безкоштовний пробний урок**.
+
+---
+
+## 📦 ТЕХНІЧНИЙ СТЕК (обов'язково)
+
+- **Astro 5.x** (статичний генератор, SSG режим)
+- **TypeScript** (strict mode)
+- **Vanilla CSS** з CSS-змінними (без Tailwind — Astro дає кращу продуктивність)
+- **Мінімум JavaScript** — тільки там, де треба інтерактив (форма, акордеон, мобільне меню)
+- **`@astrojs/sitemap`** — для SEO
+- **`@astrojs/partytown`** — для аналітики у Web Worker (без блокування main thread)
+- **`astro:assets`** — для оптимізації зображень (WebP/AVIF auto-conversion)
+
+### Цільові метрики (acceptance criteria)
+- **Lighthouse Performance:** 95+
+- **Lighthouse SEO:** 100
+- **Lighthouse Accessibility:** 95+
+- **First Contentful Paint:** < 1.0s
+- **Largest Contentful Paint:** < 1.8s
+- **Total Blocking Time:** < 100ms
+- **JavaScript bundle:** < 30KB (gzipped)
+
+---
+
+## 📁 СТРУКТУРА ПРОЄКТУ
+
+```
+itcodecraft-roblox/
+├── astro.config.mjs         # Конфіг з sitemap, partytown, prefetch
+├── tsconfig.json
+├── package.json
+├── public/
+│   ├── favicon.svg
+│   ├── robots.txt
+│   ├── og-image.jpg         # 1200x630 для соцмереж
+│   └── images/
+│       ├── hero-character.webp        # Roblox-стиль персонаж
+│       ├── games/                     # Скриншоти ігор учнів
+│       └── mentors/                   # Фото викладачів
+├── src/
+│   ├── pages/
+│   │   └── index.astro                # Головна (єдина) сторінка
+│   ├── layouts/
+│   │   └── BaseLayout.astro           # SEO meta + head
+│   ├── components/
+│   │   ├── Header.astro
+│   │   ├── Hero.astro
+│   │   ├── SocialProofBar.astro
+│   │   ├── GamesShowcase.astro
+│   │   ├── WhyRoblox.astro
+│   │   ├── HowItWorks.astro
+│   │   ├── StudentGames.astro
+│   │   ├── Benefits.astro
+│   │   ├── Testimonials.astro
+│   │   ├── Mentors.astro
+│   │   ├── FAQ.astro
+│   │   ├── FinalCTA.astro
+│   │   └── Footer.astro
+│   ├── styles/
+│   │   └── global.css                 # Design tokens + base
+│   └── data/
+│       ├── games.ts                   # Контент ігор (для маппінгу)
+│       ├── testimonials.ts
+│       ├── faq.ts
+│       └── mentors.ts
+```
+
+---
+
+## 🎨 ДИЗАЙН-СИСТЕМА
+
+### Концепція
+**Двошарова естетика:**
+- Для дітей: яскраво, грайливо, ігрові елементи (бейджі, "ачівки", блоки)
+- Для батьків: структуровано, з цифрами, відгуками, гарантіями
+
+### Кольорова палітра (CSS variables)
+```css
+--color-primary: #6366F1;       /* Indigo */
+--color-primary-dark: #4F46E5;
+--color-accent: #FBBF24;         /* Amber для CTA */
+--color-roblox: #00A2FF;         /* Roblox-стилістика */
+--color-success: #00B06F;        /* PUBLISHED статус */
+--color-bg: #FFFFFF;
+--color-bg-soft: #F9FAFB;
+--color-bg-dark: #0F172A;        /* Hero та секція ігор */
+--color-text: #1F2937;
+--color-text-soft: #6B7280;
+```
+
+### Шрифти (Google Fonts)
+- **Fredoka** (400, 600, 700) — заголовки (грайливий, Roblox-вайб)
+- **Inter** (400, 500, 600) — body
+- **JetBrains Mono** — для коду, цифр статистики
+
+### Візуальні елементи
+- **Блокові 3D-форми** — імітація Roblox-стилю через CSS transforms
+- **М'які тіні** з offset (як 3D-кнопки в іграх)
+- **Бейджі-ачівки** з glow-ефектом
+- **Скриншоти** Roblox Studio інтерфейсу
+- **Аватари дітей у Roblox-стилі** (квадратні голови, блокові тіла)
+
+### Принципи стилю
+- НЕ використовуй gradient'и фону (тільки solid кольори)
+- Тіні мають бути **offset shadows** (3D-кнопковий ефект): `box-shadow: 0 4px 0 #B8830C`
+- Округлення: 12–16px для карток, 9999px для бейджів
+- Анімації: тільки на hover і fade-in при скролі (Intersection Observer)
+
+---
+
+## 📄 СТРУКТУРА СТОРІНКИ (13 секцій)
+
+### 1️⃣ Header (sticky)
+**Зміст:**
+- Лого "ITCodeCraft" + бейдж `ROBLOX EDITION`
+- Меню: Курс, Ігри учнів, Як проходить, Викладачі, FAQ
+- CTA: `🎮 Безкоштовний урок`
+
+**Поведінка:** sticky при скролі, на мобільному — hamburger menu
+
+### 2️⃣ Hero Section
+**Лівий блок:**
+- Бейдж: `🎮 Створюй ігри, в які грають мільйони`
+- H1: `Твоя дитина створить свою першу гру в Roblox за 1 урок`
+- Підзаголовок (2 рядки): `Навчаємо програмуванню в Roblox Studio мовою Lua. Діти 8–16 років створюють і публікують власні ігри в один з найбільших ігрових світів планети.`
+- 2 CTA: `🚀 Записатись на безкоштовний урок` + `▶ Дивитись ігри учнів`
+- Trust badges: `⏱ 60 хв · 🎁 Безкоштовно · 🏆 500+ учнів`
+
+**Правий блок:**
+- Ілюстрація Roblox-персонажа (`<img>` через `astro:assets`)
+- Floating-анімація (CSS keyframes, `transform: translateY`)
+- Декоративні блоки навколо (Roblox-кубики)
+
+### 3️⃣ Social Proof Bar (тонка темна смуга)
+```
+🎮 47 опублікованих ігор · 👁 12,400+ візитів · 🏆 3 учні в ТОП-100 тижня · ⭐ 4.9/5 від батьків
+```
+
+### 4️⃣ Games Showcase ("Що ти створиш?")
+**H2:** `🎯 Що ти створиш на курсі?`
+
+Grid 2x2 з картками 4 типів ігор:
+1. **Obby** (полоса перешкод) — 2 уроки — Початковий
+2. **Battle Arena** — 4 уроки — Середній
+3. **Tycoon** — 6 уроків — Середній
+4. **Racing** — 5 уроків — Просунутий
+
+Кожна картка: іконка/скриншот, назва, опис, бейджі складності, кнопка "Дивитись приклад"
+
+### 5️⃣ Why Roblox? (для батьків)
+**H2:** `Чому Roblox — це більше, ніж просто гра`
+
+4 картки з конкретикою:
+- 🌍 **70 млн дітей грають у Roblox щодня** — найбільший майданчик світу
+- 💰 **Топ-розробники Roblox заробляють $1M+/рік** — реальна професія
+- 🧠 **Мова Lua — справжнє програмування** — місток до Python/JS
+- 🛡 **Безпечне середовище** — модерація + наш контроль
+
+### 6️⃣ How It Works (Timeline 5 кроків)
+**H2:** `🗺 Твій шлях від нуля до опублікованої гри`
+
+Вертикальний timeline:
+1. **Урок 1:** Знайомство з Roblox Studio + перший Part
+2. **Уроки 2–4:** Перша Obby-гра
+3. **Уроки 5–8:** Мова Lua — змінні, події, скрипти
+4. **Уроки 9–14:** Велика гра (Tycoon або Battle Arena)
+5. **Урок 15:** Публікація гри в Roblox
+
+### 7️⃣ Student Games Gallery (Grid 3x2)
+**H2:** `🎮 Реальні ігри від наших учнів`
+
+6 карток ігор учнів:
+- Скриншот, назва гри, ім'я+вік учня
+- Статистика: visits, рейтинг
+- Кнопка `▶ Грати в Roblox` (external link)
+
+### 8️⃣ Benefits ("Що отримує дитина")
+**H2:** `🎁 Що отримує дитина після курсу`
+
+Список з 6 переваг:
+- ✅ Власна опублікована гра в Roblox
+- ✅ Сертифікат ITCodeCraft Roblox Developer
+- ✅ Закрита Discord-спільнота
+- ✅ Знання Lua + основи ООП
+- ✅ Розуміння game design
+- ✅ PDF "10 ідей ігор для початківців"
+
+### 9️⃣ Testimonials (карусель 5 відгуків)
+- 3 від батьків, 2 від дітей
+- Фото, ім'я, вік дитини, 5 зірок, текст відгуку
+
+### 🔟 Mentors (3 викладачі)
+- Фото, ім'я, спеціалізація, досвід у Roblox (кількість ігор, visits), коротка цитата
+
+### 1️⃣1️⃣ FAQ (Accordion, 8 питань)
+1. Чи безпечний Roblox?
+2. Чи потрібні Robux?
+3. Який комп'ютер потрібен?
+4. Скільки часу до публікації?
+5. Що, якщо дитина любить лише грати?
+6. Чи підійде без досвіду?
+7. Скільки коштує курс?
+8. Що на безкоштовному уроці?
+
+### 1️⃣2️⃣ Final CTA + Lead Form
+**H2:** `🎯 Перетвори улюблену гру на перший проєкт`
+
+Форма з полями:
+- Ім'я батька (input text, required, min 2)
+- Телефон (input tel, regex: `^\+?380\d{9}$`)
+- Вік дитини (select: 7–17)
+- Submit: `🚀 Записатись на безкоштовний урок`
+
+**JavaScript:** клієнтська валідація через нативний HTML5 + Constraint Validation API, POST на `/api/lead` (endpoint можна замокати)
+
+### 1️⃣3️⃣ Footer
+Колонки: курс, ресурси, контакти, соцмережі + копірайт + **disclaimer**:
+> *Roblox® — торгова марка Roblox Corporation. ITCodeCraft не афілійований з Roblox Corporation.*
+
+---
+
+## 🔍 SEO ВИМОГИ (критично!)
+
+### Meta tags у `BaseLayout.astro`
+```html
+Roblox Studio для дітей 8–16 років | Школа програмування ITCodeCraft
+
+
+
+
+
+```
+
+### Open Graph + Twitter Cards
+```html
+
+
+
+
+
+
+
+
+
+
+
+
+
+```
+
+### JSON-LD Structured Data (3 схеми)
+
+**1. Organization Schema:**
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "EducationalOrganization",
+  "name": "ITCodeCraft",
+  "url": "https://itcodecraft.com",
+  "logo": "https://itcodecraft.com/logo.png",
+  "description": "Онлайн-школа програмування для дітей 8-16 років. Спеціалізація: Roblox Studio, Lua.",
+  "address": {
+    "@type": "PostalAddress",
+    "addressCountry": "UA"
+  },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+380-XX-XXX-XX-XX",
+    "contactType": "Customer Service",
+    "availableLanguage": ["Ukrainian"]
+  },
+  "sameAs": [
+    "https://instagram.com/itcodecraft",
+    "https://t.me/itcodecraft"
+  ]
+}
+```
+
+**2. Course Schema:**
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Course",
+  "name": "Програмування ігор у Roblox Studio",
+  "description": "Курс розробки ігор у Roblox Studio мовою Lua для дітей 8-16 років. 15 уроків від основ до публікації власної гри.",
+  "provider": {
+    "@type": "EducationalOrganization",
+    "name": "ITCodeCraft",
+    "sameAs": "https://itcodecraft.com"
+  },
+  "educationalLevel": "Beginner",
+  "teaches": ["Lua programming", "Roblox Studio", "Game Design"],
+  "hasCourseInstance": {
+    "@type": "CourseInstance",
+    "courseMode": "online",
+    "inLanguage": "uk"
+  }
+}
+```
+
+**3. FAQPage Schema** — обернути всі FAQ-питання
+
+### Технічний SEO
+- Семантичний HTML (header, main, section, article, footer)
+- Один `<h1>` на сторінці
+- `<img>` з обов'язковим `alt` (детальним)
+- `<a>` з description, не "тут"
+- `lang="uk"` на `<html>`
+- Sitemap.xml (через @astrojs/sitemap)
+- robots.txt в /public/
+
+### robots.txt
+```
+User-agent: *
+Allow: /
+Sitemap: https://itcodecraft.com/sitemap-index.xml
+```
+
+---
+
+## ⚡ ПРОДУКТИВНІСТЬ (вимоги)
+
+1. **Зображення** — через `astro:assets`:
+```astro
+---
+import { Image } from 'astro:assets';
+import heroImage from '../assets/hero-character.png';
+---
+<Image src={heroImage} alt="..." width={600} height={600} loading="eager" format="webp" />
+```
+
+2. **Шрифти** — `font-display: swap` + preload критичних:
+```html
+
+
+
+```
+
+3. **Lazy loading** — всі картинки крім hero отримують `loading="lazy"`
+
+4. **JavaScript мінімальний** — тільки 3 інтерактивні шматки:
+   - Mobile menu toggle (~500 байт)
+   - FAQ accordion (~700 байт через `<details>` нативний)
+   - Form validation + submit (~1KB)
+
+5. **CSS оптимізація:**
+   - Inline critical CSS у `<head>`
+   - Решта — async через `<link rel="preload">`
+   - PurgeCSS не потрібен (Astro і так tree-shake'ить)
+
+6. **Prefetch:**
+```html
+
+```
+
+---
+
+## ♿ ACCESSIBILITY (a11y)
+
+- ARIA-лейбли на іконках без тексту
+- Keyboard navigation працює на всіх інтерактивних елементах
+- Focus states видимі (`outline: 2px solid var(--color-primary)`)
+- Контраст тексту ≥ 4.5:1 (перевір через WCAG calculator)
+- `prefers-reduced-motion` — вимикає всі анімації
+- `<label>` на всіх інпутах форми
+- Skip link до головного контенту
+
+---
+
+## 📝 ВЕСЬ КОНТЕНТ (готові тексти)
+
+> [Сюди вклади весь копірайтинг з попереднього промпту — від заголовків до FAQ і відгуків. AI отримає готові тексти і не вигадуватиме.]
+
+---
+
+## 📦 КОМАНДИ ДЛЯ ЗАПУСКУ
+
+```bash
+# Створення проєкту
+npm create astro@latest itcodecraft-roblox -- --template minimal --typescript strict --yes
+
+cd itcodecraft-roblox
+
+# Інтеграції
+npx astro add sitemap
+npx astro add partytown
+
+# Запуск dev-сервера
+npm run dev
+
+# Білд для production
+npm run build
+
+# Preview перед деплоєм
+npm run preview
+```
+
+---
+
+## ✅ ACCEPTANCE CRITERIA (як перевірити що готово)
+
+- [ ] `npm run build` проходить без warning'ів
+- [ ] `npm run preview` — сайт відкривається на localhost:4321
+- [ ] Lighthouse: Performance 95+, SEO 100, Accessibility 95+
+- [ ] Адаптивно працює на 375px (iPhone SE), 768px (iPad), 1440px (Desktop)
+- [ ] Всі 13 секцій присутні і відображаються
+- [ ] Форма має HTML5 валідацію на телефон
+- [ ] Sitemap.xml генерується при білді
+- [ ] Один `<h1>` на сторінці
+- [ ] Всі картинки мають `alt`
+- [ ] JSON-LD структуровані дані валідні (перевір через [Schema Markup Validator](https://validator.schema.org))
+- [ ] Open Graph правильно рендериться (перевір через [opengraph.dev](https://www.opengraph.dev))
+- [ ] Дотримання disclaimer'у про Roblox у footer
+
+---
+
+## 🚀 ДЕПЛОЙ (опційно — для подальших кроків)
+
+Рекомендовані платформи (всі безкоштовні для статичного Astro):
+1. **Vercel** — `vercel deploy` (найшвидший)
+2. **Netlify** — drag&drop папки `dist/`
+3. **Cloudflare Pages** — GitHub integration
+
+---
+
+## 📌 ВАЖЛИВО
+
+1. **НЕ використовуй стокові логотипи Roblox** — це порушення товарного знака
+2. **Використовуй власні ілюстрації** в Roblox-стилістиці (блочні персонажі)
+3. **Замість фото Roblox-ігор** — скриншоти ігор учнів (твій контент)
+4. **Disclaimer обов'язковий** у footer
+5. **Тексти — українською**, технічні терміни — англійською (Roblox Studio, Lua, Obby, Tycoon)
+
+---
+
+Видай повний код проєкту у форматі: спочатку дерево файлів, потім кожен файл окремо з повним вмістом.

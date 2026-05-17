@@ -1,0 +1,80 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "XpcKbnLslOg3LRObh8Jsy"
+uri = "file://artifacts/itcodecraft/src/assets/game-obby.png"
+type = "image"
+title = "obby game screenshot"
+
+[[generated]]
+id = "NJdn2q1jmVEq0aAbMt8Q4"
+uri = "file://artifacts/itcodecraft/src/assets/game-battle.png"
+type = "image"
+title = "battle arena game screenshot"
+
+[[generated]]
+id = "aQF62rzZzRMFridDNzIj7"
+uri = "file://artifacts/itcodecraft/src/assets/game-tycoon.png"
+type = "image"
+title = "tycoon game screenshot"
+
+[[generated]]
+id = "MgngfiJBXuutHFLrTwBTl"
+uri = "file://artifacts/itcodecraft/src/assets/game-racing.png"
+type = "image"
+title = "racing game screenshot"
+
+[[generated]]
+id = "A0LITiWBb8a4ConVFdiOf"
+uri = "file://artifacts/itcodecraft/src/assets/mentor-oleksiy.png"
+type = "image"
+title = "mentor avatar male indigo"
+
+[[generated]]
+id = "CwsXJ5qP6dn5ljrMltjsK"
+uri = "file://artifacts/itcodecraft/src/assets/mentor-mariia.png"
+type = "image"
+title = "mentor avatar female purple"
+
+[[generated]]
+id = "d-esApAWdOZU-adtUkD5r"
+uri = "file://artifacts/itcodecraft/src/assets/mentor-denys.png"
+type = "image"
+title = "mentor avatar male green"
+
+[[generated]]
+id = "m0qm914jNQTlg_hvoZJ1O"
+uri = "file://artifacts/itcodecraft/src/assets/sg-zombie.png"
+type = "image"
+title = "zombie tycoon student game"
+
+[[generated]]
+id = "zpeo2B_GSCEH1qML3gX21"
+uri = "file://artifacts/itcodecraft/src/assets/sg-sky.png"
+type = "image"
+title = "sky obby student game"
+
+[[generated]]
+id = "EbVn9wbZE3WRehPXQnLor"
+uri = "file://artifacts/itcodecraft/src/assets/sg-city.png"
+type = "image"
+title = "city racing student game"
+
+[[generated]]
+id = "SxPS-fzsIRbZexZSPBxXd"
+uri = "file://artifacts/itcodecraft/src/assets/sg-dragon.png"
+type = "image"
+title = "dragon arena student game"
+
+[[generated]]
+id = "OfsErUA8TvvhSUbCwDNQ5"
+uri = "file://artifacts/itcodecraft/src/assets/sg-pizza.png"
+type = "image"
+title = "pizza tycoon student game"
+
+[[generated]]
+id = "6KFSifECAuejgOY78AJ4V"
+uri = "file://artifacts/itcodecraft/src/assets/sg-space.png"
+type = "image"
+title = "space obby student game"

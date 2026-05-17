@@ -1,0 +1,98 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.1.0
+  description: API specification
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: leads
+    description: Lead capture operations
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      description: Returns server health status
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+  /lead:
+    post:
+      operationId: submitLead
+      tags: [leads]
+      summary: Submit a lead (free lesson request)
+      description: Captures parent contact info and child age for a free trial lesson
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LeadInput"
+      responses:
+        "201":
+          description: Lead created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LeadResponse"
+        "400":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+    LeadInput:
+      type: object
+      required:
+        - parentName
+        - phone
+        - childAge
+      properties:
+        parentName:
+          type: string
+          minLength: 2
+          description: Name of the parent
+        phone:
+          type: string
+          description: Parent phone number (Ukrainian format)
+        childAge:
+          type: integer
+          minimum: 7
+          maximum: 17
+          description: Age of the child
+    LeadResponse:
+      type: object
+      required:
+        - id
+        - message
+      properties:
+        id:
+          type: integer
+        message:
+          type: string
+    ErrorResponse:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          type: string
