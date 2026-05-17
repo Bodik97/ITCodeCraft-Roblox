@@ -1,0 +1,12 @@
+.lead-form label {
+  @apply font-bold text-sm text-slate-700;
+}
+
+.lead-form input,
+.lead-form select {
+  @apply h-11 w-full rounded-xl border-2 border-slate-200 px-3 text-sm outline-none focus:border-[#6366F1] focus:ring-2 focus:ring-[#6366F1]/20;
+}
+
+.lead-form .field-error {
+  @apply text-sm text-red-600 mt-1;
+}

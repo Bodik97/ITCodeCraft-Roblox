@@ -1,0 +1,57 @@
+---
+import { Image } from "astro:assets";
+import StatsRow from "@/components/StatsRow";
+import content from "@/data/data.json";
+import { getAsset } from "@/lib/assets";
+
+const s = content.studentGamesSection;
+const row1 = [...s.games, ...s.games];
+const row2 = [...[...s.games].reverse(), ...[...s.games].reverse()];
+---
+
+<section id="games" class="py-20 bg-[#0B1120] text-white relative overflow-hidden scan-line-bg">
+  <div class="container mx-auto px-4 relative z-10">
+    <div class="text-center mb-10 fade-in-up">
+      <span class="inline-block bg-white/8 text-slate-300 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-4 border border-white/10">{s.eyebrow}</span>
+      <h2 class="text-3xl md:text-4xl font-display font-bold mb-3">{s.title}</h2>
+      <p class="text-slate-400 text-lg max-w-xl mx-auto">{s.subtitle}</p>
+    </div>
+    <StatsRow client:visible stats={s.stats} />
+  </div>
+  <div class="marquee-outer mb-5">
+    <div class="marquee-track py-2">
+      {row1.map((game) => (
+        <article class="game-card">
+          <div class="relative h-44 overflow-hidden">
+            <Image src={getAsset(game.image)} alt={game.name} class="w-full h-full object-cover" loading="lazy" />
+            <span class="badge-published absolute top-3 left-3">PUBLISHED</span>
+          </div>
+          <div class="p-4 text-sm">
+            <h3 class="font-display font-bold text-white text-lg">{game.name}</h3>
+            <p class="text-slate-300">{game.student}, {game.age}р.</p>
+            <p class="text-[#00A2FF] font-bold mt-2">{game.visits.toLocaleString("uk-UA")} візитів</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+  <div class="marquee-outer">
+    <div class="marquee-track-rev py-2">
+      {row2.map((game) => (
+        <article class="game-card">
+          <div class="relative h-44 overflow-hidden">
+            <Image src={getAsset(game.image)} alt={game.name} class="w-full h-full object-cover" loading="lazy" />
+          </div>
+          <div class="p-4 text-sm">
+            <h3 class="font-display font-bold text-white text-lg">{game.name}</h3>
+            <p class="text-slate-300">{game.student}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+  <div class="text-center mt-12 relative z-10">
+    <p class="text-slate-400 text-sm mb-6">{s.footnote}</p>
+    <button type="button" data-scroll-to="cta" class="px-10 py-4 rounded-xl font-display font-bold text-base btn-3d-amber">{s.cta}</button>
+  </div>
+</section>

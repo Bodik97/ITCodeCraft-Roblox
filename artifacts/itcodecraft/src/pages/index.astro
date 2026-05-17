@@ -1,0 +1,39 @@
+---
+import Layout from "@/components/layouts/Layout.astro";
+import Header from "@/sections/Header.astro";
+import Hero from "@/sections/Hero.astro";
+import SocialProof from "@/sections/SocialProof.astro";
+import GamesShowcase from "@/sections/GamesShowcase.astro";
+import WhyRoblox from "@/sections/WhyRoblox.astro";
+import HowItWorks from "@/sections/HowItWorks.astro";
+import StudentGames from "@/sections/StudentGames.astro";
+import Benefits from "@/sections/Benefits.astro";
+import Testimonials from "@/sections/Testimonials.astro";
+import Mentors from "@/sections/Mentors.astro";
+import FAQ from "@/sections/FAQ.astro";
+import RegisterForm from "@/sections/RegisterForm.astro";
+import Footer from "@/sections/Footer.astro";
+import ModalSuccess from "@/components/modal/ModalSuccess.astro";
+import ModalError from "@/components/modal/ModalError.astro";
+import content from "@/data/data.json";
+---
+
+<Layout title={content.meta.title} description={content.meta.description} canonicalUrl={content.meta.canonical}>
+  <Header />
+  <main id="main-content" class="flex-1">
+    <Hero />
+    <SocialProof />
+    <GamesShowcase />
+    <WhyRoblox />
+    <HowItWorks />
+    <StudentGames />
+    <Benefits />
+    <Testimonials />
+    <Mentors />
+    <FAQ />
+    <RegisterForm />
+  </main>
+  <Footer />
+  <ModalSuccess />
+  <ModalError />
+</Layout>

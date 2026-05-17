@@ -1,0 +1,36 @@
+---
+import { Image } from "astro:assets";
+import content from "@/data/data.json";
+import { getAsset } from "@/lib/assets";
+
+const s = content.gamesSection;
+---
+
+<section id="course" class="py-20 bg-white">
+  <div class="container mx-auto px-4">
+    <div class="text-center mb-14 fade-in-up">
+      <span class="inline-block bg-[#6366F1]/10 text-[#6366F1] text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-4">{s.eyebrow}</span>
+      <h2 class="text-3xl md:text-4xl font-display font-bold text-[#0F172A] mb-3">{s.title}</h2>
+      <p class="text-slate-500 text-lg max-w-xl mx-auto">{s.subtitle}</p>
+    </div>
+    <div class="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+      {
+        s.games.map((game) => (
+          <article class="fade-in-up course-card rounded-2xl border-2 border-slate-100 bg-white overflow-hidden group">
+            <div class="relative h-44 overflow-hidden">
+              <Image src={getAsset(game.image)} alt={`Приклад гри: ${game.title}`} class="w-full h-full object-cover" loading="lazy" />
+              <div class="absolute top-3 left-3 flex gap-2">
+                <span class="bg-white/90 backdrop-blur px-2 py-0.5 rounded-full text-xs font-bold text-[#6366F1]">{game.duration}</span>
+                <span class={`${game.diffClass} px-2 py-0.5 rounded-full text-xs font-bold`}>{game.difficulty}</span>
+              </div>
+            </div>
+            <div class="p-5">
+              <h3 class="text-lg font-display font-bold text-[#0F172A] mb-1">{game.title}</h3>
+              <p class="text-slate-500 text-sm leading-relaxed">{game.description}</p>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

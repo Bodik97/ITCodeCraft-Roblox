@@ -1,0 +1,23 @@
+---
+import content from "@/data/data.json";
+const s = content.benefitsSection;
+---
+
+<section class="py-20 bg-white">
+  <div class="container mx-auto px-4 max-w-4xl">
+    <div class="fade-in-up bg-[#6366F1]/5 border-2 border-[#6366F1]/15 rounded-3xl p-8 md:p-12">
+      <div class="text-center mb-10">
+        <span class="inline-block bg-[#6366F1]/10 text-[#6366F1] text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-4">{s.eyebrow}</span>
+        <h2 class="text-2xl md:text-3xl font-display font-bold text-[#0F172A]">{s.title}</h2>
+      </div>
+      <div class="grid sm:grid-cols-2 gap-4">
+        {s.items.map((benefit) => (
+          <div class="fade-in-up flex items-center gap-3 bg-white rounded-xl p-4 border border-[#6366F1]/10 shadow-sm">
+            <span class="text-[#00B06F] font-bold">✓</span>
+            <span class="font-medium text-slate-700">{benefit}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

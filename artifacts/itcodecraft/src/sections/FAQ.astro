@@ -1,0 +1,21 @@
+---
+import content from "@/data/data.json";
+const s = content.faqSection;
+---
+
+<section id="faq" class="py-20 bg-[#F9FAFB]">
+  <div class="container mx-auto px-4 max-w-2xl">
+    <div class="text-center mb-14 fade-in-up">
+      <span class="inline-block bg-[#00A2FF]/10 text-[#00A2FF] text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-4">{s.eyebrow}</span>
+      <h2 class="text-3xl md:text-4xl font-display font-bold text-[#0F172A]">{s.title}</h2>
+    </div>
+    <div class="fade-in-up bg-white rounded-2xl shadow-sm border border-slate-100 p-6 md:p-8 space-y-3">
+      {s.items.map((faq) => (
+        <details class="group border-b border-slate-100 pb-3">
+          <summary class="cursor-pointer font-display font-bold text-base py-2 list-none">{faq.q}</summary>
+          <p class="text-slate-600 text-sm leading-relaxed pb-2">{faq.a}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
