@@ -6,6 +6,8 @@
     "preinstall": "sh -c 'rm -f package-lock.json yarn.lock; case \"$npm_config_user_agent$npm_execpath\" in *pnpm*|*bun*) ;; *) echo \"Use pnpm or bun\" >&2; exit 1 ;; esac'",
     "dev": "bun --env-file=.env scripts/dev.ts",
     "dev:stop": "bun --env-file=.env scripts/dev-stop.ts",
+    "dev:web": "pnpm --filter @workspace/itcodecraft run dev",
+    "dev:api": "pnpm --filter @workspace/api-server run dev",
     "check": "pnpm --filter @workspace/itcodecraft run check",
     "build": "pnpm run typecheck && pnpm -r --if-present run build",
     "typecheck:libs": "tsc --build",

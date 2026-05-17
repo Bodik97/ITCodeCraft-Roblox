@@ -109,10 +109,19 @@
   transform: translateY(0);
 }
 
+.hero-particles {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
 .hero-particle {
   position: absolute;
   border-radius: 50%;
   pointer-events: none;
+  opacity: 0;
   animation: drift linear infinite;
 }
 

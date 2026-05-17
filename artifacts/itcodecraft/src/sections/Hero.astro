@@ -4,22 +4,26 @@ import RobloxCharacter from "@/components/RobloxCharacter.astro";
 
 const h = content.hero;
 const particles = [
-  { size: 8, left: "12%", delay: "0s", duration: "14s", color: "#6366F1" },
-  { size: 5, left: "28%", delay: "2.5s", duration: "11s", color: "#FBBF24" },
+  { size: 8, left: "8%", delay: "0s", duration: "14s", color: "#6366F1" },
+  { size: 6, left: "25%", delay: "2.5s", duration: "11s", color: "#FBBF24" },
   { size: 10, left: "45%", delay: "1.2s", duration: "16s", color: "#00A2FF" },
+  { size: 5, left: "62%", delay: "4s", duration: "13s", color: "#00B06F" },
+  { size: 7, left: "78%", delay: "6s", duration: "15s", color: "#6366F1" },
+  { size: 6, left: "92%", delay: "3.5s", duration: "12s", color: "#FBBF24" },
 ];
 ---
 
 <section class="bg-[#0F172A] text-white pt-16 pb-20 overflow-hidden relative">
-  {
-    particles.map((p) => (
-      <div
-        class="hero-particle"
-        style={`width:${p.size}px;height:${p.size}px;left:${p.left};bottom:-20px;background:${p.color};animation-delay:${p.delay};animation-duration:${p.duration};opacity:0`}
-        aria-hidden="true"
-      />
-    ))
-  }
+  <div class="hero-particles" aria-hidden="true">
+    {
+      particles.map((p) => (
+        <div
+          class="hero-particle"
+          style={`width:${p.size}px;height:${p.size}px;left:${p.left};bottom:-20px;background:${p.color};animation-delay:${p.delay};animation-duration:${p.duration}`}
+        />
+      ))
+    }
+  </div>
   <div class="container mx-auto px-4 grid lg:grid-cols-2 gap-8 items-center relative z-10">
     <div class="space-y-7 fade-in-up">
       <div class="inline-flex items-center gap-2 bg-white/10 px-4 py-2 rounded-full border border-white/20 text-sm font-medium">
