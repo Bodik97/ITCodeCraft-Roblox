@@ -1,23 +1,95 @@
 ---
+import { Image } from "astro:assets";
 import content from "@/data/data.json";
+
 const s = content.whySection;
+
+// Завантаження всіх іконок
+const icons = import.meta.glob<{ default: ImageMetadata }>('/src/icons/*.{jpeg,jpg,png,gif,svg,webp}');
+
+const getIcon = (path: string | undefined) => {
+  if (!path) return null;
+  const fileName = path.split('/').pop();
+  return icons[`/src/icons/${fileName}`];
+};
 ---
 
-<section class="py-20 bg-[#F9FAFB]">
-  <div class="container mx-auto px-4">
-    <div class="text-center mb-14 fade-in-up">
-      <span class="inline-block bg-[#00A2FF]/10 text-[#00A2FF] text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-4">{s.eyebrow}</span>
-      <h2 class="text-3xl md:text-4xl font-display font-bold text-[#0F172A] mb-3">{s.title}</h2>
-      <p class="text-slate-500 text-lg max-w-xl mx-auto">{s.subtitle}</p>
+<section class="py-12 md:py-24 bg-[#F9FAFB] overflow-hidden">
+  <div class="container mx-auto px-4 sm:px-6">
+    
+    {/* Заголовок секції - Адаптивні розміри шрифтів */}
+    <div class="text-center mb-12 md:mb-20 fade-in-up">
+      <span class="inline-block bg-[#00A2FF]/10 text-[#00A2FF] text-[10px] md:text-xs font-black px-4 py-1.5 rounded-full uppercase tracking-[0.2em] mb-5 border border-[#00A2FF]/20">
+        {s.eyebrow}
+      </span>
+      <h2 class="text-2xl sm:text-3xl md:text-5xl font-display font-bold text-[#0F172A] mb-5 tracking-tight leading-[1.1]">
+        {s.title}
+      </h2>
+      <p class="text-slate-500 text-sm sm:text-base md:text-xl max-w-2xl mx-auto leading-relaxed font-medium px-2">
+        {s.subtitle}
+      </p>
     </div>
-    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-      {s.items.map((item) => (
-        <article class="fade-in-up bg-white p-7 rounded-2xl shadow-sm border border-slate-100 text-center">
-          <div class="text-2xl font-display font-bold text-[#0F172A] mb-1">{item.stat}</div>
-          <div class="text-xs font-bold text-slate-500 uppercase tracking-wide mb-3">{item.sub}</div>
-          <p class="text-slate-600 text-sm leading-relaxed">{item.desc}</p>
-        </article>
-      ))}
+    
+    {/* Сітка карток - Адаптивні колонки */}
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
+      {s.items.map((item) => {
+        const IconSingle = getIcon(item.icon);
+        const Icon1 = getIcon(item.icon1);
+        const Icon2 = getIcon(item.icon2);
+
+        return (
+          <article class="fade-in-up group bg-white p-6 sm:p-8 md:p-10 rounded-3xl sm:rounded-4xl md:rounded-[40px] shadow-[0_4px_20px_-4px_rgba(0,0,0,0.04)] border border-slate-100 text-center flex flex-col items-center hover:shadow-[0_20px_40px_-12px_rgba(0,162,255,0.12)] hover:border-[#00A2FF]/20 transition-all duration-500 ease-out">
+            
+            {/* АДАПТИВНИЙ КОНТЕЙНЕР ДЛЯ ІКОНОК (h-24 на мобільних, h-32 на десктопі) */}
+            <div class="h-24 md:h-32 mb-6 md:mb-8 flex items-center justify-center w-full">
+              
+              {IconSingle ? (
+                /* Одиночна іконка: w-24 (96px) на мобільних, w-32 (128px) на десктопі */
+                <div class="w-24 h-24 md:w-32 md:h-32 flex items-center justify-center p-2 group-hover:scale-110 transition-transform duration-500">
+                  <Image 
+                    src={IconSingle()} 
+                    alt={item.stat} 
+                    width={200} 
+                    height={200}
+                    class="w-full h-full object-contain filter drop-shadow-xl"
+                  />
+                </div>
+              ) : Icon1 && Icon2 ? (
+                /* Подвійні іконки для блоку Lua -> Python */
+                <div class="flex items-center gap-2 sm:gap-3">
+                  <div class="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 flex items-center justify-center p-1 group-hover:-translate-x-1 transition-transform duration-500">
+                    <Image src={Icon1()} alt="Lua" width={120} height={120} class="w-full h-full object-contain drop-shadow-md" />
+                  </div>
+                  
+                  <span class="text-[#00A2FF] font-black text-lg md:text-2xl animate-pulse">→</span>
+                  
+                  <div class="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 flex items-center justify-center p-1 group-hover:translate-x-1 transition-transform duration-500">
+                    <Image src={Icon2()} alt="Python" width={120} height={120} class="w-full h-full object-contain drop-shadow-md" />
+                  </div>
+                </div>
+              ) : (
+                <div class="w-12 h-12 bg-slate-50 rounded-full flex items-center justify-center text-xl text-[#00A2FF]">✦</div>
+              )}
+            </div>
+
+            {/* Текстовий блок - Адаптивні розміри */}
+            <div class="space-y-3 md:space-y-4">
+              <div class="text-2xl sm:text-3xl md:text-4xl font-display font-black text-[#0F172A] tracking-tight group-hover:text-[#00A2FF] transition-colors duration-300">
+                {item.stat}
+              </div>
+              
+              <div class="text-[9px] sm:text-[10px] md:text-xs font-black text-slate-400 group-hover:text-slate-500 uppercase tracking-[0.15em] leading-tight transition-colors">
+                {item.sub}
+              </div>
+              
+              <p class="text-slate-500 text-xs sm:text-sm md:text-base leading-relaxed font-medium px-1">
+                {item.desc}
+              </p>
+            </div>
+            
+          </article>
+        );
+      })}
     </div>
   </div>
 </section>
