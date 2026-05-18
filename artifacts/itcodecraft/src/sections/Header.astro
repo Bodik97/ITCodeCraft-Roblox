@@ -1,14 +1,22 @@
 ---
-import Logo from "@/components/Logo.astro";
 import content from "@/data/data.json";
 const { navigation, brand } = content;
 ---
 
-<header id="site-header" class="site-header sticky top-0 z-50 w-full border-b border-slate-100 bg-white/95 backdrop-blur">
+<header id="site-header" class="site-header sticky top-0 z-50 w-full  bg-[#041424] backdrop-blur">
   <div class="container mx-auto px-4 h-16 flex items-center justify-between">
-    <div class="flex items-center gap-2 min-w-0">
-      <Logo size="sm" variant="light" href={brand.homeUrl} class="min-w-0" />
-      <span class="bg-[#00A2FF] text-white text-[9px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider shrink-0">{brand.edition}</span>
+    <div class="flex items-center gap-2 min-w-0  px-3 py-2 rounded-2xl">
+      <a href={brand.homeUrl} class="min-w-0 block" aria-label={`${brand.primary}${brand.accent}`}>
+        <img
+          src="/logo.svg"
+          alt={`${brand.primary}${brand.accent}`}
+          class="h-9 w-auto object-contain"
+          width="600"
+          height="190"
+          loading="eager"
+          decoding="async"
+        />
+      </a>
     </div>
     <nav class="hidden md:flex items-center gap-5" aria-label="Навігація">
       {navigation.links.map((link) => (
@@ -21,14 +29,14 @@ const { navigation, brand } = content;
       <button type="button" data-scroll-to="cta" data-testid="button-header-cta" class="hidden sm:inline-flex px-5 py-2 rounded-xl font-bold text-sm btn-3d-amber">
         {navigation.ctaLabel}
       </button>
-      <button id="mobile-menu-toggle" type="button" class="md:hidden p-2 text-[#0F172A]" aria-label={navigation.openMenuLabel}>
+      <button id="mobile-menu-toggle" type="button" class="md:hidden p-2 text-white" aria-label={navigation.openMenuLabel}>
         ☰
       </button>
     </div>
   </div>
-  <nav id="mobile-menu" class="mobile-menu-panel md:hidden hidden absolute top-16 left-0 w-full bg-white border-b shadow-xl py-4 px-4 flex-col gap-1">
+  <nav id="mobile-menu" class="mobile-menu-panel md:hidden hidden absolute top-16 left-0 w-full bg-[#041424] border-b shadow-xl py-4 px-4 flex-col gap-1">
     {navigation.links.map((link) => (
-      <button type="button" data-scroll-to={link.id} class="text-left font-medium px-3 py-2 rounded-lg hover:bg-slate-50 w-full">
+      <button type="button" data-scroll-to={link.id} class="text-left cursor-pointer text-white font-medium px-3 py-2 rounded-lg hover:text-white/50 w-full">
         {link.label}
       </button>
     ))}

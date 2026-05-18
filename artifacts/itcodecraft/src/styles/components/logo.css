@@ -26,9 +26,7 @@
   --ic-muted: rgba(15, 23, 42, 0.5);
 }
 
-.ic-logo--light .ic-name-accent {
-  color: rgba(15, 23, 42, 0.35);
-}
+
 
 .ic-wordmark {
   display: inline-flex;
@@ -51,11 +49,12 @@
 }
 
 .ic-name-base {
-  color: var(--ic-text);
+  /* color: var(--ic-text); */
+  color: white;
 }
 
 .ic-name-accent {
-  color: rgba(255, 255, 255, 0.35);
+  color: #ffffff59;
   font-weight: 300;
   letter-spacing: -0.03em;
 }
