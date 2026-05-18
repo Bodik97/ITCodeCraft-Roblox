@@ -74,13 +74,9 @@ const organizationJsonLd = JSON.stringify({
           const id = el.getAttribute("data-scroll-to");
           if (!id) return;
           document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-          document.getElementById("mobile-menu")?.classList.remove("is-open");
+          document.dispatchEvent(new CustomEvent("mobile-menu:close"));
         });
       });
-
-      const toggle = document.getElementById("mobile-menu-toggle");
-      const menu = document.getElementById("mobile-menu");
-      toggle?.addEventListener("click", () => menu?.classList.toggle("is-open"));
 
       const io = new IntersectionObserver(
         (entries) => {
