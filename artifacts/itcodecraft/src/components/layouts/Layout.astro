@@ -65,8 +65,6 @@ const organizationJsonLd = JSON.stringify({
         const h = document.documentElement.scrollHeight - window.innerHeight;
         const pct = h > 0 ? (window.scrollY / h) * 100 : 0;
         if (progress) progress.style.setProperty("--scroll-progress", `${pct}%`);
-        const header = document.getElementById("site-header");
-        header?.classList.toggle("is-scrolled", window.scrollY > 8);
       };
       window.addEventListener("scroll", onScroll, { passive: true });
       onScroll();
@@ -76,13 +74,9 @@ const organizationJsonLd = JSON.stringify({
           const id = el.getAttribute("data-scroll-to");
           if (!id) return;
           document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-          document.getElementById("mobile-menu")?.classList.remove("is-open");
+          document.dispatchEvent(new CustomEvent("mobile-menu:close"));
         });
       });
-
-      const toggle = document.getElementById("mobile-menu-toggle");
-      const menu = document.getElementById("mobile-menu");
-      toggle?.addEventListener("click", () => menu?.classList.toggle("is-open"));
 
       const io = new IntersectionObserver(
         (entries) => {

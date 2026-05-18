@@ -43,7 +43,6 @@
   }
 }
 
-@import "./base/layouts.css";
 @import "./components/logo.css";
 @import "./components/form.css";
 
