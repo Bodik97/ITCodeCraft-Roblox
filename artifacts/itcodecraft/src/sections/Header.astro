@@ -23,7 +23,7 @@ const { navigation, brand } = content;
         <button
           type="button"
           data-scroll-to={link.id}
-          class="text-sm font-medium text-white/70 hover:text-white transition-colors"
+          class="cursor-pointer text-sm font-medium text-white/70 hover:text-white transition-colors"
         >
           {link.label}
         </button>
@@ -111,6 +111,12 @@ const { navigation, brand } = content;
       box-shadow 0.2s ease;
   }
 
+  @media (min-width: 768px) {
+    .menu-toggle {
+      display: none;
+    }
+  }
+
   .menu-toggle:hover {
     background: rgba(255, 255, 255, 0.1);
     border-color: rgba(34, 211, 238, 0.35);
@@ -195,7 +201,6 @@ const { navigation, brand } = content;
 
   .site-header.is-menu-open .mobile-menu-panel {
     max-height: min(92vh, 50rem);
-    min-height: min(68vh, 34rem);
     opacity: 1;
     visibility: visible;
     pointer-events: auto;
@@ -210,10 +215,9 @@ const { navigation, brand } = content;
   .mobile-menu-inner {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
-    padding: 1.25rem 1rem 1.5rem;
-    min-height: calc(min(68vh, 34rem) - 2px);
-    justify-content: space-between;
+    gap: 0.375rem;
+    padding: 1rem 1rem 1.25rem;
+    justify-content: flex-start;
   }
 
   .mobile-menu-link,
@@ -240,9 +244,9 @@ const { navigation, brand } = content;
     align-items: center;
     gap: 0.75rem;
     width: 100%;
-    min-height: 3.25rem;
+    min-height: 2.75rem;
     text-align: left;
-    padding: 1rem 1.125rem;
+    padding: 0.75rem 1rem;
     border-radius: 0.875rem;
     font-size: 1rem;
     font-weight: 600;
@@ -268,10 +272,10 @@ const { navigation, brand } = content;
   }
 
   .mobile-menu-cta {
-    margin-top: 0;
+    margin-top: 0.75rem;
     width: 100%;
-    min-height: 3.5rem;
-    padding: 1rem 1.125rem;
+    min-height: 3rem;
+    padding: 0.875rem 1rem;
     border-radius: 0.875rem;
     font-family: "Fredoka", sans-serif;
     font-size: 1rem;
