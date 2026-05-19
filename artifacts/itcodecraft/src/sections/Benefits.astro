@@ -3,21 +3,140 @@ import content from "@/data/data.json";
 const s = content.benefitsSection;
 ---
 
-<section class="py-20 bg-white">
-  <div class="container mx-auto px-4 max-w-4xl">
-    <div class="fade-in-up bg-[#6366F1]/5 border-2 border-[#6366F1]/15 rounded-3xl p-8 md:p-12">
-      <div class="text-center mb-10">
-        <span class="inline-block bg-[#6366F1]/10 text-[#6366F1] text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-4">{s.eyebrow}</span>
-        <h2 class="text-2xl md:text-3xl font-display font-bold text-[#0F172A]">{s.title}</h2>
-      </div>
-      <div class="grid sm:grid-cols-2 gap-4">
-        {s.items.map((benefit) => (
-          <div class="fade-in-up flex items-center gap-3 bg-white rounded-xl p-4 border border-[#6366F1]/10 shadow-sm">
-            <span class="text-[#00B06F] font-bold">✓</span>
-            <span class="font-medium text-slate-700">{benefit}</span>
+<section id="benefits" class="py-16 md:py-24 bg-white overflow-hidden">
+  <div class="container mx-auto px-4 max-w-6xl">
+    
+    <!-- Шапка секції -->
+    <div class="text-center mb-16 md:mb-20 reveal">
+      <span class="inline-block bg-[#6366F1]/10 text-[#6366F1] text-[10px] md:text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-widest mb-6 border border-[#6366F1]/20">
+        {s.eyebrow}
+      </span>
+      <h2 class="text-3xl md:text-5xl font-display font-bold text-[#0F172A] leading-tight max-w-4xl mx-auto mb-6">
+        {s.title}
+      </h2>
+      <p class="text-slate-500 text-base md:text-xl max-w-2xl mx-auto">
+        {s.subtitle}
+      </p>
+    </div>
+
+    <!-- Сітка переваг -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-16">
+      {s.items.map((item) => ( // Видалено невикористаний index
+        <article 
+          class="reveal-item group relative bg-white rounded-4xl p-8 border-2 border-slate-50 shadow-sm hover:shadow-xl hover:border-[#6366F1]/20 transition-all duration-500"
+        >
+          <!-- Іконка -->
+          <div class="w-16 h-16 mb-6 rounded-2xl bg-slate-50 flex items-center justify-center text-3xl group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500 shadow-inner">
+            {item.emoji}
           </div>
-        ))}
+
+          <h3 class="text-xl font-display font-bold text-[#0F172A] mb-3 group-hover:text-[#6366F1] transition-colors">
+            {item.title}
+          </h3>
+          <p class="text-slate-500 leading-relaxed text-sm md:text-base">
+            {item.text}
+          </p>
+          
+          <!-- Декоративна лінія знизу -->
+          <div class="absolute bottom-6 left-8 right-8 h-1 bg-slate-100 rounded-full overflow-hidden">
+            <div class="h-full w-0 group-hover:w-full bg-[#6366F1]/30 transition-all duration-700"></div>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <!-- CTA Блок -->
+    <div class="reveal bg-[#6366F1]/5 border-2 border-[#6366F1]/10 rounded-5xl p-8 md:p-12 text-center relative overflow-hidden">
+      <!-- Декоративна пляма на фоні -->
+      <div class="absolute -top-24 -right-24 w-64 h-64 bg-[#6366F1]/10 rounded-full blur-3xl"></div>
+      
+      <h3 class="text-2xl md:text-3xl font-display font-bold text-[#0F172A] mb-6 relative z-10">
+        Готові дати дитині <span class="text-[#6366F1]">суперсилу</span> розробника?
+      </h3>
+      
+      <div class="flex flex-col items-center gap-6 relative z-10">
+        <button 
+          data-scroll-to="cta"
+          class="w-full sm:w-auto px-10 py-5 rounded-2xl font-display font-bold text-lg btn-3d-amber shadow-xl transition-transform active:scale-95"
+        >
+          {s.cta}
+        </button>
+        
+        <div class="flex flex-col gap-2">
+          <p class="text-slate-600 text-sm md:text-base font-medium">
+            {s.footnote}
+          </p>
+          <p class="text-[#00B06F] text-xs font-bold uppercase tracking-wider">
+            ✓ 95% дітей створюють свою першу гру вже на пробному уроці
+          </p>
+        </div>
       </div>
     </div>
   </div>
 </section>
+
+<style>
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .reveal-item {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .active {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+  }
+
+  .btn-3d-amber {
+    background: #FFB800;
+    color: #000;
+    border-bottom: 4px solid #E6A600;
+    transition: all 0.2s;
+  }
+
+  .btn-3d-amber:hover {
+    background: #FFC426;
+    transform: translateY(-2px);
+    border-bottom-width: 6px;
+  }
+
+  .btn-3d-amber:active {
+    transform: translateY(2px);
+    border-bottom-width: 2px;
+  }
+
+  @media (max-width: 480px) {
+    h2 {
+      font-size: 1.75rem !important;
+    }
+  }
+</style>
+
+<script>
+  function reveal() {
+    const reveals = document.querySelectorAll(".reveal, .reveal-item");
+    
+    reveals.forEach((entry, index) => {
+      const windowHeight = window.innerHeight;
+      const elementTop = entry.getBoundingClientRect().top;
+      const elementVisible = 100;
+
+      if (elementTop < windowHeight - elementVisible) {
+        if (entry.classList.contains('reveal-item')) {
+           const delay = (index % 3) * 0.1;
+           (entry as HTMLElement).style.transitionDelay = `${delay}s`;
+        }
+        entry.classList.add("active");
+      }
+    });
+  }
+
+  window.addEventListener("scroll", reveal);
+  reveal();
+</script>
