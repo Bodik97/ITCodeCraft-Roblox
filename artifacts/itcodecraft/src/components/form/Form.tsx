@@ -1,9 +1,13 @@
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import PhoneField from "./PhoneField";
 import { leadSchema, type LeadFormValues } from "./schema";
 import { reportError } from "@/lib/reportError";
+import {
+  buildGoogleSheetLeadPayload,
+  submitLeadToGoogleSheet,
+} from "@/lib/formSubmit";
+import { pushGtmEvent, uid } from "@/lib/utils";
 
 type FormCopy = {
   submitLabel: string;
@@ -12,12 +16,19 @@ type FormCopy = {
   successMessage: string;
 };
 
-type Props = {
-  copy: FormCopy;
+export type CrmParams = {
+  productName: string;
+  formId?: string;
+  googleScriptUrl?: string;
+  redirectUrl?: string;
 };
 
-export default function LeadForm({ copy }: Props) {
-  const [submitted, setSubmitted] = useState(false);
+type Props = {
+  copy: FormCopy;
+  crm: CrmParams;
+};
+
+export default function LeadForm({ copy, crm }: Props) {
   const {
     register,
     control,
@@ -30,43 +41,75 @@ export default function LeadForm({ copy }: Props) {
   });
 
   const onSubmit = handleSubmit(async (values) => {
+    const resolvedProductName =
+      typeof window !== "undefined" && window.productName != null
+        ? window.productName
+        : crm.productName;
+
+    const leadSummary = JSON.stringify({
+      context: "блок_на_сайті",
+      course: resolvedProductName,
+      ...values,
+    });
+    window.itccTrack?.("form_submit_lead", leadSummary, { skipThrottle: true });
+
+    const sendData = buildGoogleSheetLeadPayload({
+      course: resolvedProductName,
+      formId: crm.formId ?? "roblox-landing",
+      name: values.parentName,
+      phone: values.phone,
+      childAge: values.childAge,
+    });
+
     try {
-      const res = await fetch("/api/lead", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
+      await submitLeadToGoogleSheet(sendData, crm.googleScriptUrl);
+
+      pushGtmEvent("lead", {
+        phone: sendData.phone,
+        email: "",
+        conversionId: uid(),
       });
 
-      if (!res.ok) {
-        throw new Error(`Lead submit failed: ${res.status}`);
+      const params = new URLSearchParams(window.location.search);
+      params.set("first_name", sendData.name as string);
+      params.set("phone", (sendData.phone as string) || "");
+      params.set("email", "");
+
+      if (crm.redirectUrl) {
+        reset();
+        window.location.href = `${crm.redirectUrl}?${params.toString()}`;
+        return;
       }
 
-      setSubmitted(true);
-      reset();
+      window.history.pushState(
+        {},
+        "",
+        `${window.location.pathname}?${params.toString()}`,
+      );
       window.dispatchEvent(new CustomEvent("itcc:form-success"));
     } catch (error) {
       reportError(error, "lead-form");
       window.dispatchEvent(new CustomEvent("itcc:form-error"));
+    } finally {
+      reset();
     }
   });
 
-  if (submitted) {
-    return (
-      <div className="text-center py-8 space-y-2">
-        <p className="text-xl font-display font-bold text-[#00B06F]">{copy.successTitle}</p>
-        <p className="text-slate-500 text-sm">{copy.successMessage}</p>
-      </div>
-    );
-  }
-
   return (
-    <form onSubmit={onSubmit} className="lead-form space-y-5" data-testid="lead-form">
+    <form
+      onSubmit={onSubmit}
+      className="lead-form space-y-5"
+      data-testid="lead-form"
+      data-itcc-form="register-lead"
+      noValidate
+    >
       <div>
         <label htmlFor="parentName">Ім&apos;я батька або мами</label>
         <input
           id="parentName"
           data-testid="input-parent-name"
           placeholder="Ваше ім'я"
+          autoComplete="name"
           {...register("parentName")}
         />
         {errors.parentName && (
@@ -78,7 +121,11 @@ export default function LeadForm({ copy }: Props) {
 
       <div>
         <label htmlFor="childAge">Вік дитини</label>
-        <select id="childAge" data-testid="select-child-age" {...register("childAge")}>
+        <select
+          id="childAge"
+          data-testid="select-child-age"
+          {...register("childAge", { valueAsNumber: true })}
+        >
           {[7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17].map((age) => (
             <option key={age} value={age}>
               {age} років
@@ -94,7 +141,8 @@ export default function LeadForm({ copy }: Props) {
         type="submit"
         data-testid="button-submit-lead"
         disabled={isSubmitting}
-        className="w-full h-14 rounded-xl text-base font-display font-bold btn-3d-amber border-0"
+        aria-busy={isSubmitting}
+        className="w-full h-14 rounded-xl text-sm md:text-base font-display font-bold btn-3d-amber border-0"
       >
         {isSubmitting ? copy.submittingLabel : copy.submitLabel}
       </button>

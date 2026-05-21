@@ -13,13 +13,13 @@
   "dependencies": {
     "@astrojs/react": "^4.4.2",
     "@hookform/resolvers": "^3.10.0",
+    "@intl-tel-input/react": "^28.1.0",
     "astro": "^5.17.2",
     "astro-icon": "^1.1.5",
-    "libphonenumber-js": "^1.13.2",
+    "intl-tel-input": "^28.1.0",
     "react": "catalog:",
     "react-dom": "catalog:",
     "react-hook-form": "^7.55.0",
-    "react-phone-number-input": "^3.4.16",
     "zod": "catalog:"
   },
   "devDependencies": {
