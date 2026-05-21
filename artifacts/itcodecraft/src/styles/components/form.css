@@ -33,7 +33,7 @@
 }
 
 .lead-form .iti--lead-form input.iti__tel-input {
-  @apply h-11 w-full rounded-xl border-2 border-slate-200 pl-[52px] pr-3 text-sm outline-none;
+  @apply h-11 w-full rounded-xl border-2 border-slate-200 pr-3 text-sm outline-none;
 }
 
 .lead-form .iti--lead-form:focus-within input.iti__tel-input {

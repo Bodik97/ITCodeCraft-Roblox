@@ -32,6 +32,8 @@ export default function PhoneField({ control, error }: Props) {
             countryNameLocale="uk"
             i18n={uk}
             containerClass="iti--lead-form"
+            separateDialCode={false}
+            nationalMode
             fixDropdownWidth
             useFullscreenPopup={false}
             loadUtils={() => import("intl-tel-input/utils")}
