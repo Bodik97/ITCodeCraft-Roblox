@@ -142,7 +142,7 @@ export default function LeadForm({ copy, crm }: Props) {
         data-testid="button-submit-lead"
         disabled={isSubmitting}
         aria-busy={isSubmitting}
-        className="w-full h-14 rounded-xl text-base font-display font-bold btn-3d-amber border-0"
+        className="w-full h-14 rounded-xl text-sm md:text-base font-display font-bold btn-3d-amber border-0"
       >
         {isSubmitting ? copy.submittingLabel : copy.submitLabel}
       </button>

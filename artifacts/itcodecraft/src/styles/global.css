@@ -1,3 +1,4 @@
+
 @import url("https://fonts.googleapis.com/css2?family=DM+Mono&family=Fredoka:wght@400;600;700&family=Inter:wght@400;500;600&family=Outfit:wght@300;900&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
@@ -30,7 +31,8 @@
   }
 
   body {
-    @apply font-sans antialiased bg-[var(--roblox-bg-soft)] text-[var(--roblox-text)];
+    /* ВИПРАВЛЕНО: Використано канонічний синтаксис Tailwind v4 для змінних */
+    @apply font-sans antialiased bg-(--roblox-bg-soft) text-(--roblox-text);
   }
 
   h1,
@@ -263,4 +265,13 @@
 
 .timeline-line.is-visible {
   transform: scaleY(1);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-out forwards;
 }
