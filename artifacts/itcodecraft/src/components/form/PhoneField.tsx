@@ -1,6 +1,8 @@
-import PhoneInput from "react-phone-number-input";
-import ua from "react-phone-number-input/locale/ua";
-import "react-phone-number-input/style.css";
+import { useEffect, useRef } from "react";
+import IntlTelInput from "@intl-tel-input/react";
+import type { IntlTelInputRef } from "@intl-tel-input/react";
+import { uk } from "intl-tel-input/i18n";
+import "intl-tel-input/styles";
 import type { Control, FieldError } from "react-hook-form";
 import { Controller } from "react-hook-form";
 import type { LeadFormValues } from "./schema";
@@ -11,26 +13,35 @@ type Props = {
 };
 
 export default function PhoneField({ control, error }: Props) {
+  const itiRef = useRef<IntlTelInputRef>(null);
+
+  useEffect(() => {
+    itiRef.current?.getInput()?.setAttribute("data-testid", "input-phone");
+  }, []);
+
   return (
     <div>
       <label htmlFor="phone">Телефон</label>
       <Controller
         name="phone"
         control={control}
-        render={({ field: { onChange, value, ref } }) => (
-          <PhoneInput
-            id="phone"
-            ref={ref}
-            international
-            defaultCountry="UA"
-            countryCallingCodeEditable={false}
-            labels={ua}
-            placeholder="050 123 45 67"
-            className="PhoneInput--lead-form"
-            value={value || undefined}
-            onChange={(next) => onChange(next ?? "")}
-            numberInputProps={{
-              "data-testid": "input-phone",
+        render={({ field }) => (
+          <IntlTelInput
+            ref={itiRef}
+            initialCountry="ua"
+            countryNameLocale="uk"
+            i18n={uk}
+            containerClass="iti--lead-form"
+            fixDropdownWidth
+            useFullscreenPopup={false}
+            loadUtils={() => import("intl-tel-input/utils")}
+            value={field.value}
+            onChangeNumber={field.onChange}
+            inputProps={{
+              id: "phone",
+              name: field.name,
+              onBlur: field.onBlur,
+              placeholder: "050 123 45 67",
               "aria-invalid": error ? true : undefined,
             }}
           />

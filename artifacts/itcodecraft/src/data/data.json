@@ -459,7 +459,7 @@
         "label": "Галерея ігор"
       },
       {
-        "id": "how-it-works",
+        "id": "program",
         "label": "Як проходить"
       },
       {
@@ -469,17 +469,22 @@
     ],
     "contacts": [
       {
-        "label": "Telegram",
-        "href": "https://t.me/your-placeholder-channel"
-      },
-      {
         "label": "Instagram",
-        "href": "https://instagram.com/your-placeholder-account"
+        "href": "https://www.instagram.com/itcodecraft"
       },
       {
-        "label": "Email",
-        "href": "mailto:hello@example.com"
+        "label": "Facebook",
+        "href": "https://www.facebook.com/profile.php?id=61578550358897"
+      },
+      {
+        "label": "Youtube",
+        "href": "https://www.youtube.com/@CodeCraft-it-q4f"
+      },
+      {
+        "label": "Telegram",
+        "href": "https://t.me/ITCodeCraf"
       }
+
     ],
     "copyright": "© 2024 ITCodeCraft. Всі права захищені.",
     "disclaimer": "Roblox® — торгова марка Roblox Corporation. ITCodeCraft не афілійований з Roblox Corporation."
