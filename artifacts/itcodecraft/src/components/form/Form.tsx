@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import PhoneField from "./PhoneField";
 import { leadSchema, type LeadFormValues } from "./schema";
 import { reportError } from "@/lib/reportError";
 
@@ -19,12 +20,13 @@ export default function LeadForm({ copy }: Props) {
   const [submitted, setSubmitted] = useState(false);
   const {
     register,
+    control,
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
   } = useForm<LeadFormValues>({
     resolver: zodResolver(leadSchema),
-    defaultValues: { childAge: 10 },
+    defaultValues: { childAge: 10, phone: "" },
   });
 
   const onSubmit = handleSubmit(async (values) => {
@@ -72,17 +74,7 @@ export default function LeadForm({ copy }: Props) {
         )}
       </div>
 
-      <div>
-        <label htmlFor="phone">Телефон</label>
-        <input
-          id="phone"
-          type="tel"
-          data-testid="input-phone"
-          placeholder="050 123 45 67"
-          {...register("phone")}
-        />
-        {errors.phone && <p className="field-error">{errors.phone.message}</p>}
-      </div>
+      <PhoneField control={control} error={errors.phone} />
 
       <div>
         <label htmlFor="childAge">Вік дитини</label>

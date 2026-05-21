@@ -7,6 +7,36 @@
   @apply h-11 w-full rounded-xl border-2 border-slate-200 px-3 text-sm outline-none focus:border-[#6366F1] focus:ring-2 focus:ring-[#6366F1]/20;
 }
 
+.lead-form .PhoneInput--lead-form {
+  @apply flex w-full items-stretch;
+}
+
+.lead-form .PhoneInputCountry {
+  @apply relative mr-0 flex shrink-0 items-center self-stretch rounded-l-xl border-2 border-r-0 border-slate-200 bg-white pl-2 pr-1;
+}
+
+.lead-form .PhoneInputCountrySelect {
+  @apply absolute inset-0 z-10 cursor-pointer opacity-0;
+}
+
+.lead-form .PhoneInputCountryIcon {
+  @apply h-5 w-7 overflow-hidden rounded-sm;
+}
+
+.lead-form .PhoneInputCountrySelectArrow {
+  @apply ml-1 h-2 w-2 border-b-2 border-r-2 border-slate-400;
+  transform: rotate(45deg) translateY(-1px);
+}
+
+.lead-form .PhoneInputInput {
+  @apply h-11 min-w-0 flex-1 rounded-r-xl rounded-l-none border-2 border-slate-200 px-3 text-sm outline-none focus:border-[#6366F1] focus:ring-2 focus:ring-[#6366F1]/20;
+}
+
+.lead-form .PhoneInput--lead-form:focus-within .PhoneInputCountry,
+.lead-form .PhoneInput--lead-form:focus-within .PhoneInputInput {
+  @apply border-[#6366F1] ring-2 ring-[#6366F1]/20;
+}
+
 .lead-form .field-error {
   @apply text-sm text-red-600 mt-1;
 }

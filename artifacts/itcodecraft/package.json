@@ -15,9 +15,11 @@
     "@hookform/resolvers": "^3.10.0",
     "astro": "^5.17.2",
     "astro-icon": "^1.1.5",
+    "libphonenumber-js": "^1.13.2",
     "react": "catalog:",
     "react-dom": "catalog:",
     "react-hook-form": "^7.55.0",
+    "react-phone-number-input": "^3.4.16",
     "zod": "catalog:"
   },
   "devDependencies": {

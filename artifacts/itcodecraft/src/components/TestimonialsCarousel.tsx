@@ -4,7 +4,9 @@ type Testimonial = {
   initials: string;
   name: string;
   sub: string;
+  course?: string;
   text: string;
+  highlight?: string;
 };
 
 type Props = {
@@ -26,9 +28,19 @@ export default function TestimonialsCarousel({ items }: Props) {
           {items.map((t) => (
             <div key={t.name} className="w-full shrink-0">
               <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 mx-1">
+                {t.course && (
+                  <span className="inline-block bg-[#6366F1]/10 text-[#6366F1] text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+                    {t.course}
+                  </span>
+                )}
                 <p className="text-slate-700 text-lg italic leading-relaxed my-5">
                   &ldquo;{t.text}&rdquo;
                 </p>
+                {t.highlight && (
+                  <p className="text-sm text-[#6366F1] font-medium mb-5">
+                    ✦ {t.highlight}
+                  </p>
+                )}
                 <div className="flex items-center gap-4 border-t border-slate-100 pt-5">
                   <div className="w-12 h-12 rounded-full bg-[#6366F1]/10 border-2 border-[#6366F1]/20 flex items-center justify-center font-bold text-[#6366F1] shrink-0 text-sm">
                     {t.initials}
