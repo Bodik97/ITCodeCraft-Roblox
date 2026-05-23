@@ -137,5 +137,9 @@
     "@expo/ngrok-bin>@expo/ngrok-bin-win32-x64": "-",
     "@esbuild-kit/esm-loader": "npm:tsx@^4.21.0",
     "esbuild": "0.27.3"
+  },
+  "dependencies": {
+    "@intl-tel-input/react": "^29.0.1",
+    "intl-tel-input": "^29.0.1"
   }
 }
