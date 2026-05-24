@@ -114,7 +114,7 @@ function testLeadRow() {
   doPost({
     postData: {
       contents: JSON.stringify({
-        Course: "Roblox Studio для дітей 8–15 років",
+        Course: "roblox",
         FormID: "roblox-landing",
         SiteURL: "https://example.com/",
         childAge: 11,

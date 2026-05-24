@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import AgeSelectField from "./AgeSelectField";
 import PhoneField from "./PhoneField";
 import { leadSchema, type LeadFormValues } from "./schema";
 import { reportError } from "@/lib/reportError";
@@ -119,30 +120,14 @@ export default function LeadForm({ copy, crm }: Props) {
 
       <PhoneField control={control} error={errors.phone} />
 
-      <div>
-        <label htmlFor="childAge">Вік дитини</label>
-        <select
-          id="childAge"
-          data-testid="select-child-age"
-          {...register("childAge", { valueAsNumber: true })}
-        >
-          {[7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17].map((age) => (
-            <option key={age} value={age}>
-              {age} років
-            </option>
-          ))}
-        </select>
-        {errors.childAge && (
-          <p className="field-error">{errors.childAge.message}</p>
-        )}
-      </div>
+      <AgeSelectField control={control} error={errors.childAge} />
 
       <button
         type="submit"
         data-testid="button-submit-lead"
         disabled={isSubmitting}
         aria-busy={isSubmitting}
-        className="w-full h-14 rounded-xl text-sm md:text-base font-display font-bold btn-3d-amber border-0"
+        className="w-full h-14 rounded-xl text-sm xl:text-base font-display font-bold btn-3d-amber border-0"
       >
         {isSubmitting ? copy.submittingLabel : copy.submitLabel}
       </button>
