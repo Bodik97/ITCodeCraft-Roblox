@@ -3,7 +3,7 @@ import content from "@/data/data.json";
 const { navigation, brand } = content;
 ---
 
-<header id="site-header" class="site-header sticky top-0 z-50 w-full bg-[#041424] backdrop-blur">
+<header id="site-header" class="site-header fixed top-0 z-50 w-full bg-[#041424] backdrop-blur">
   <div class="container mx-auto px-4 h-16 flex items-center justify-between">
     <div class="flex items-center gap-2 min-w-0">
       <a href={brand.homeUrl} class="min-w-0 block" aria-label={`${brand.primary}${brand.accent}`}>
