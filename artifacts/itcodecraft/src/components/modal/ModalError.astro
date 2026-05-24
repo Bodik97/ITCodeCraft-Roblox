@@ -11,10 +11,18 @@ import content from "@/data/data.json";
 </div>
 
 <script>
-  window.addEventListener("itcc:form-error", () => {
-    document.getElementById("modal-error")?.classList.replace("hidden", "flex");
-  });
-  document.getElementById("modal-error-close")?.addEventListener("click", () => {
-    document.getElementById("modal-error")?.classList.replace("flex", "hidden");
-  });
+  import { lockBodyScroll, unlockBodyScroll } from "@/lib/scrollLock";
+
+  const modal = document.getElementById("modal-error");
+
+  function setErrorModalOpen(open: boolean) {
+    if (!modal) return;
+    modal.classList.toggle("hidden", !open);
+    modal.classList.toggle("flex", open);
+    if (open) lockBodyScroll();
+    else unlockBodyScroll();
+  }
+
+  window.addEventListener("itcc:form-error", () => setErrorModalOpen(true));
+  document.getElementById("modal-error-close")?.addEventListener("click", () => setErrorModalOpen(false));
 </script>

@@ -303,6 +303,8 @@ const { navigation, brand } = content;
 </style>
 
 <script>
+  import { lockBodyScroll, unlockBodyScroll } from "@/lib/scrollLock";
+
   const header = document.getElementById("site-header");
   const toggle = document.getElementById("mobile-menu-toggle");
   const backdrop = document.getElementById("mobile-menu-backdrop");
@@ -317,7 +319,8 @@ const { navigation, brand } = content;
     toggle?.setAttribute("aria-label", open ? closeLabel : openLabel);
     panel?.setAttribute("aria-hidden", String(!open));
     backdrop?.setAttribute("aria-hidden", String(!open));
-    document.body.classList.toggle("overflow-hidden", open);
+    if (open) lockBodyScroll();
+    else unlockBodyScroll();
   }
 
   toggle?.addEventListener("click", () => {

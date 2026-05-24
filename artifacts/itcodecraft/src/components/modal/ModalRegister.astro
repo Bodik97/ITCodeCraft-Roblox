@@ -20,7 +20,6 @@ const s = content.registerSection;
   ></button>
 
   <div class="register-modal__panel relative w-full max-w-lg text-[#0F172A]">
-    <div class="register-modal__accent" aria-hidden="true"></div>
     <div class="register-modal__card bg-white rounded-3xl p-8 shadow-2xl">
       <button
         type="button"
@@ -47,6 +46,7 @@ const s = content.registerSection;
 
   .register-modal.is-open {
     display: flex;
+    overscroll-behavior: none;
   }
 
   .register-modal__backdrop {
@@ -127,6 +127,8 @@ const s = content.registerSection;
 </style>
 
 <script>
+  import { lockBodyScroll, unlockBodyScroll } from "@/lib/scrollLock";
+
   const modal = document.getElementById("modal-register");
   const openTriggers = document.querySelectorAll("[data-open-register-modal]");
 
@@ -135,7 +137,8 @@ const s = content.registerSection;
     modal.classList.toggle("is-open", open);
     modal.classList.toggle("hidden", !open);
     modal.setAttribute("aria-hidden", String(!open));
-    document.body.classList.toggle("overflow-hidden", open);
+    if (open) lockBodyScroll();
+    else unlockBodyScroll();
     if (open) {
       document.dispatchEvent(new CustomEvent("mobile-menu:close"));
       const firstInput = modal.querySelector<HTMLInputElement>("input, select, textarea");
